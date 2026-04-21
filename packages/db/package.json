@@ -1,0 +1,38 @@
+{
+  "name": "@app/db",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./entities": "./src/entities/index.ts",
+    "./orm": "./src/orm.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "test": "vitest run --passWithNoTests",
+    "mikro-orm": "mikro-orm",
+    "db:generate": "mikro-orm migration:create",
+    "db:migrate": "mikro-orm migration:up",
+    "db:rollback": "mikro-orm migration:down",
+    "db:fresh": "mikro-orm migration:fresh"
+  },
+  "dependencies": {
+    "@mikro-orm/core": "^6.4.2",
+    "@mikro-orm/migrations": "^6.4.2",
+    "@mikro-orm/postgresql": "^6.4.2"
+  },
+  "devDependencies": {
+    "@mikro-orm/cli": "^6.4.2",
+    "@types/node": "^22",
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.4"
+  },
+  "mikro-orm": {
+    "useTsNode": true,
+    "configPaths": [
+      "./src/mikro-orm.config.ts"
+    ]
+  }
+}
