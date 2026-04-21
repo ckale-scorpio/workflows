@@ -16,7 +16,7 @@
     "db:generate": "tsx ./node_modules/@mikro-orm/cli/cli.js migration:create",
     "db:migrate": "tsx ./node_modules/@mikro-orm/cli/cli.js migration:up",
     "db:rollback": "tsx ./node_modules/@mikro-orm/cli/cli.js migration:down",
-    "db:fresh": "tsx ./node_modules/@mikro-orm/cli/cli.js migration:fresh"
+    "db:reset": "tsx src/scripts/reset.ts"
   },
   "dependencies": {
     "@mikro-orm/core": "^6.4.2",

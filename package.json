@@ -16,6 +16,7 @@
     "db:migrate": "dotenv -e .env.local --override -- pnpm --filter @app/db db:migrate",
     "db:generate": "dotenv -e .env.local --override -- pnpm --filter @app/db db:generate",
     "db:rollback": "dotenv -e .env.local --override -- pnpm --filter @app/db db:rollback",
+    "db:reset": "dotenv -e .env.local --override -- pnpm --filter @app/db db:reset",
     "clean": "turbo run clean && rm -rf node_modules"
   },
   "devDependencies": {
