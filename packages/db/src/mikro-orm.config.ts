@@ -10,6 +10,7 @@ export default function loadConfig() {
   return defineConfig({
     clientUrl: databaseUrl,
     entities,
+    schema: 'public',
     extensions: [Migrator],
     migrations: {
       path: './migrations',
