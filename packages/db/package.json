@@ -12,11 +12,11 @@
     "typecheck": "tsc --noEmit",
     "lint": "biome check .",
     "test": "vitest run --passWithNoTests",
-    "mikro-orm": "mikro-orm",
-    "db:generate": "mikro-orm migration:create",
-    "db:migrate": "mikro-orm migration:up",
-    "db:rollback": "mikro-orm migration:down",
-    "db:fresh": "mikro-orm migration:fresh"
+    "mikro-orm": "tsx ./node_modules/@mikro-orm/cli/cli.js",
+    "db:generate": "tsx ./node_modules/@mikro-orm/cli/cli.js migration:create",
+    "db:migrate": "tsx ./node_modules/@mikro-orm/cli/cli.js migration:up",
+    "db:rollback": "tsx ./node_modules/@mikro-orm/cli/cli.js migration:down",
+    "db:fresh": "tsx ./node_modules/@mikro-orm/cli/cli.js migration:fresh"
   },
   "dependencies": {
     "@mikro-orm/core": "^6.4.2",
@@ -26,6 +26,8 @@
   "devDependencies": {
     "@mikro-orm/cli": "^6.4.2",
     "@types/node": "^22",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.7.2",
     "vitest": "^4.1.4"
   },
