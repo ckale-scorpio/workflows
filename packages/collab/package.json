@@ -1,0 +1,40 @@
+{
+  "name": "@app/collab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./slate": "./src/slate-adapter.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "slate": "^0.103.0",
+    "slate-react": "^0.113.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "slate": {
+      "optional": true
+    },
+    "slate-react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19.2.14",
+    "react": "^19.2.4",
+    "slate": "^0.124.1",
+    "slate-react": "^0.124.0",
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.4"
+  }
+}

@@ -5,7 +5,7 @@ export const env = createEnv({
   server: {
     ANTHROPIC_API_KEY: z.string().min(1),
     DATABASE_URL: z.string().url(),
-    SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
+    SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
     INNGEST_EVENT_KEY: z.string().optional(),
     INNGEST_SIGNING_KEY: z.string().optional(),
     STRIPE_SECRET_KEY: z.string().optional(),

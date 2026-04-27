@@ -73,6 +73,23 @@
           }
         }
       }
+    },
+    {
+      "includes": ["**/packages/collab/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@app/server": "@app/collab is platform code; it must not import @app/server."
+                }
+              }
+            }
+          }
+        }
+      }
     }
   ]
 }
