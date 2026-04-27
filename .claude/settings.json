@@ -1,5 +1,17 @@
 {
   "permissions": {
-    "allow": ["Bash(ls *)", "Bash(find *)", "Bash(grep)", "Bash(git log)", "Bash(mkdir *)"]
+    "allow": [
+      "Bash(ls *)",
+      "Bash(find *)",
+      "Bash(grep)",
+      "Bash(git log)",
+      "Bash(mkdir *)",
+      "Bash(git commit *)",
+      "Bash(python3 -m json.tool)",
+      "Bash(git filter-branch *)",
+      "Bash(grep -v \"^$\")",
+      "Bash(pnpm *)",
+      "Bash(curl *)"
+    ]
   }
 }
