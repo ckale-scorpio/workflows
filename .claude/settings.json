@@ -1,5 +1,5 @@
 {
   "permissions": {
-    "allow": ["Bash(mkdir *)"]
+    "allow": ["Bash(ls *)", "Bash(find *)", "Bash(grep)", "Bash(git log)", "Bash(mkdir *)"]
   }
 }
