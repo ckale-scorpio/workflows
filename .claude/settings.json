@@ -3,7 +3,8 @@
     "allow": [
       "Bash(ls *)",
       "Bash(find *)",
-      "Bash(grep)",
+      "Bash(grep *)",
+      "Bash(awk *)",
       "Bash(git log)",
       "Bash(mkdir *)",
       "Bash(git commit *)",
