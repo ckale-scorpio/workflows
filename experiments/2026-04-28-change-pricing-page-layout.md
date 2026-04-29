@@ -1,7 +1,7 @@
 ---
 date: 2026-04-28
 author: Chetan Kale
-status: specified
+status: Proposed
 type: experiment
 experiment_id: 2026-04-28-change-pricing-page-layout
 tags: [experiment]
