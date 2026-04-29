@@ -74,7 +74,7 @@ done
 # ── Guardrail Metrics (warning — optional but recommended) ───────────────────
 
 grep -qF "## Guardrail Metrics" "$FILE" \
-  || warn "Missing '## Guardrail Metrics' section — add the section with 'None' if guardrails are intentionally skipped"
+  || err "Missing '## Guardrail Metrics' section — add the section with 'None' if guardrails are intentionally skipped"
 
 # ── TBD baseline (warning — spec is incomplete) ──────────────────────────────
 
