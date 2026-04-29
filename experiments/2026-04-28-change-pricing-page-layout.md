@@ -31,5 +31,10 @@ By reordering pricing plans to show the recommended plan first, the trial-to-pai
 - **Duration**: 6 weeks
 - **Target population**: All users who visit the pricing page
 
+## Guardrail Metrics
+| Metric | Threshold |
+|--------|-----------|
+| None | — |
+
 ## Notes
 None
