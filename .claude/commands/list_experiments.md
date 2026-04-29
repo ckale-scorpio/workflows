@@ -28,6 +28,8 @@ List all experiment specs from the `experiments/` directory, grouped by status.
    grep "^field_name:" file.md | head -1 | sed 's/^field_name: //'
    ```
 
+   **Important**: `status` is a reserved variable in zsh and cannot be assigned. Use `exp_status`, `exp_date`, `exp_id` as variable names when looping over files.
+
 4. Group the experiments by status in this order:
    1. Proposed
    2. Approved
