@@ -1,0 +1,42 @@
+# Resume screener — job description spec
+# Copy this file to your workspace as jd.yaml and fill it in.
+# Run: pnpm --dir ~/.claude/skills/screen-resumes/screener screen --workspace .
+
+title: "Senior Backend Engineer"
+
+# Skills the candidate should have.
+# required_skills are weighted 1.0x; preferred_skills are weighted 0.4x.
+# Use the terms that actually appear in resumes (e.g. "TypeScript" not "TS").
+required_skills:
+  - TypeScript
+  - Node.js
+  - PostgreSQL
+
+preferred_skills:
+  - AWS
+  - Redis
+  - Docker
+
+# Experience in the last N years gets full weight.
+# Jobs 1–1.75× this window get 0.5× weight; older gets 0.15×.
+recency_window_years: 4
+
+# Scoring weights — must sum to 1.0
+weights:
+  skills: 0.5    # JD skill overlap, recency-weighted
+  recency: 0.3   # how current is the candidate's most recent role?
+  agency: 0.2    # ownership/decision-making language in recent bullets
+
+# Set to true to gate out candidates without an undergraduate degree.
+# They will still appear in output/report.md as "Disqualified".
+must_have_undergrad: true
+
+# How many top candidates get a written rationale (Stage D — uses API).
+# Set to 0 to skip Stage D entirely.
+top_n_explain: 30
+
+# Paste the full job description here — used verbatim in narrative prompts.
+# The more complete this is, the better the rationale paragraphs.
+job_description: |
+  We are looking for a Senior Backend Engineer to join our team.
+  (paste the full job description here)
