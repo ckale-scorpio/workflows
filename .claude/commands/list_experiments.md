@@ -12,11 +12,11 @@ List all experiment specs from the `experiments/` directory, grouped by status.
 
 2. Run this single command to find all experiment spec files and extract their frontmatter fields in one pass:
    ```bash
-   awk '/^status:/{s=substr($0,9)} /^date:/{d=substr($0,7)} /^experiment_id:/{i=substr($0,16); print s"|"d"|"i}' \
-     $(find experiments/ -name "*.md" -not -name "metrics.md" -not -name "guardrail_metrics.md" | sort)
+   find experiments/ -name "*.md" -not -name "metrics.md" -not -name "guardrail_metrics.md" \
+     -exec awk '/^status:/{s=substr($0,9)} /^date:/{d=substr($0,7)} /^experiment_id:/{i=substr($0,16); print s"|"d"|"i}' {} +
    ```
 
-   This outputs one line per experiment in the format `STATUS|DATE|EXPERIMENT_ID`.
+   This outputs one line per experiment in the format `STATUS|DATE|EXPERIMENT_ID`. Using `find -exec ... {} +` avoids command substitution (`$(...)`) which triggers a separate permission prompt in Claude Code regardless of the allowlist.
 
 4. Group the experiments by status in this order:
    1. Proposed
