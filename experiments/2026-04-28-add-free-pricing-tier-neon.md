@@ -12,6 +12,8 @@ tags: [experiment]
 ## Description
 Increase product signups for Neon by introducing a free trial offering. The current pricing page requires immediate payment commitment, which may be deterring potential users from signing up. By lowering the barrier to entry with a time-limited trial, we expect to capture more top-of-funnel signups.
 
+status: Proposed
+
 ## Intervention
 Add a 1-week free trial giving new users access to all product features. After 7 days, all features are locked and the user must provide payment to continue. No credit card required at signup.
 
