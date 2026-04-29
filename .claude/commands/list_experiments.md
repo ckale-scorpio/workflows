@@ -10,25 +10,13 @@ List all experiment specs from the `experiments/` directory, grouped by status.
 
 1. Check if a status filter was provided via `$ARGUMENTS`. Valid filter values are: `Proposed`, `Approved`, `In Progress`, `Paused`, `Completed`, `Cancelled`. If provided, only show experiments matching that status. If not provided, show all statuses.
 
-2. Run the following command to find all experiment spec files (excluding the registries):
+2. Run this single command to find all experiment spec files and extract their frontmatter fields in one pass:
    ```bash
-   find experiments/ -name "*.md" \
-     -not -name "metrics.md" \
-     -not -name "guardrail_metrics.md" \
-     | sort
+   awk '/^status:/{s=substr($0,9)} /^date:/{d=substr($0,7)} /^experiment_id:/{i=substr($0,16); print s"|"d"|"i}' \
+     $(find experiments/ -name "*.md" -not -name "metrics.md" -not -name "guardrail_metrics.md" | sort)
    ```
 
-3. For each file found, extract these fields from the YAML frontmatter using Bash:
-   - `status` — e.g. `Proposed`
-   - `date` — e.g. `2026-04-28`
-   - `experiment_id` — e.g. `2026-04-28-reduce-onboarding-fields`
-
-   Use this pattern to extract a frontmatter field from a file:
-   ```bash
-   grep "^field_name:" file.md | head -1 | sed 's/^field_name: //'
-   ```
-
-   **Important**: `status` is a reserved variable in zsh and cannot be assigned. Use `exp_status`, `exp_date`, `exp_id` as variable names when looping over files.
+   This outputs one line per experiment in the format `STATUS|DATE|EXPERIMENT_ID`.
 
 4. Group the experiments by status in this order:
    1. Proposed
