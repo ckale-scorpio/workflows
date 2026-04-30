@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const JDSchema = z.object({
   title: z.string(),
@@ -17,8 +17,8 @@ export const JDSchema = z.object({
   must_have_undergrad: z.boolean().default(true),
   top_n_explain: z.number().int().default(30),
   job_description: z.string().default(''),
-})
-export type JD = z.infer<typeof JDSchema>
+});
+export type JD = z.infer<typeof JDSchema>;
 
 export const JobEntrySchema = z.object({
   title: z.string(),
@@ -27,22 +27,22 @@ export const JobEntrySchema = z.object({
   end: z.string().nullable(),
   bullets: z.array(z.string()),
   skills_mentioned: z.array(z.string()),
-})
-export type JobEntry = z.infer<typeof JobEntrySchema>
+});
+export type JobEntry = z.infer<typeof JobEntrySchema>;
 
 export const EducationEntrySchema = z.object({
   degree: z.string(),
   field: z.string().nullable().optional(),
   school: z.string().nullable().optional(),
-})
-export type EducationEntry = z.infer<typeof EducationEntrySchema>
+});
+export type EducationEntry = z.infer<typeof EducationEntrySchema>;
 
 export const AgencyPhraseSchema = z.object({
   phrase: z.string(),
   job_context: z.string(),
   approximate_year: z.number().nullable(),
-})
-export type AgencyPhrase = z.infer<typeof AgencyPhraseSchema>
+});
+export type AgencyPhrase = z.infer<typeof AgencyPhraseSchema>;
 
 export const ResumeExtractSchema = z.object({
   file: z.string(),
@@ -52,22 +52,22 @@ export const ResumeExtractSchema = z.object({
   jobs: z.array(JobEntrySchema),
   education: z.array(EducationEntrySchema),
   agency_phrases: z.array(AgencyPhraseSchema),
-})
-export type ResumeExtract = z.infer<typeof ResumeExtractSchema>
+});
+export type ResumeExtract = z.infer<typeof ResumeExtractSchema>;
 
 export interface ScoredResume {
-  file: string
-  name: string
-  headline: string
-  rank?: number
-  total_score: number
-  skill_score: number
-  recency_score: number
-  agency_score: number
-  has_undergrad: boolean
-  disqualified: boolean
-  matched_required: string[]
-  matched_preferred: string[]
-  top_agency_phrases: string[]
-  explanation?: string
+  file: string;
+  name: string;
+  headline: string;
+  rank?: number;
+  total_score: number;
+  skill_score: number;
+  recency_score: number;
+  agency_score: number;
+  has_undergrad: boolean;
+  disqualified: boolean;
+  matched_required: string[];
+  matched_preferred: string[];
+  top_agency_phrases: string[];
+  explanation?: string;
 }
