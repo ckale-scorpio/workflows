@@ -9,9 +9,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  SKIP_ENV_VALIDATION: '1'
-
 jobs:
   verify:
     name: Typecheck, Lint, Test, Build
@@ -40,3 +37,8 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          ANTHROPIC_API_KEY: sk-ant-placeholder
+          DATABASE_URL: postgresql://user:pass@localhost:5432/db
+          NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
