@@ -221,7 +221,10 @@ program
   .action(async (opts) => {
     const workspace = path.resolve(opts.workspace as string);
     const jdPath = (opts.jd as string | undefined) ?? path.join(workspace, 'jd.yaml');
-    const resumesDir = (opts.resumes as string | undefined) ?? path.join(workspace, 'resumes');
+    const resumesSubdir = path.join(workspace, 'resumes');
+    const resumesDir =
+      (opts.resumes as string | undefined) ??
+      (existsSync(resumesSubdir) ? resumesSubdir : workspace);
     const concurrency = parseInt(opts.concurrency as string, 10);
     const verbose = (opts.verbose as boolean) ?? false;
     const doExplain = (opts.explain as boolean) ?? true;
@@ -301,7 +304,10 @@ program
   .option('--verbose', 'show per-file progress')
   .action(async (opts) => {
     const workspace = path.resolve(opts.workspace as string);
-    const resumesDir = (opts.resumes as string | undefined) ?? path.join(workspace, 'resumes');
+    const resumesSubdir = path.join(workspace, 'resumes');
+    const resumesDir =
+      (opts.resumes as string | undefined) ??
+      (existsSync(resumesSubdir) ? resumesSubdir : workspace);
     const concurrency = parseInt(opts.concurrency as string, 10);
     const verbose = (opts.verbose as boolean) ?? false;
 
