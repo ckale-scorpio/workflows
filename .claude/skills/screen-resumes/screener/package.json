@@ -7,7 +7,8 @@
     "extract": "tsx src/cli.ts extract",
     "score": "tsx src/cli.ts score",
     "explain": "tsx src/cli.ts explain",
-    "test": "vitest run"
+    "test": "vitest run",
+    "generate-fixtures": "tsx generate-fixtures.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/pdf-parse": "^1.1.4",
+    "pdfkit": "^0.15.0",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0",
     "vitest": "^2.0.0"

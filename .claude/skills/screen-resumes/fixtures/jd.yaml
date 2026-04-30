@@ -1,0 +1,46 @@
+title: Senior Backend Engineer
+required_skills:
+  - typescript
+  - node
+  - postgresql
+preferred_skills:
+  - aws
+  - redis
+  - docker
+  - kubernetes
+  - graphql
+recency_window_years: 4
+weights:
+  skills: 0.5
+  recency: 0.3
+  agency: 0.2
+must_have_undergrad: true
+top_n_explain: 5
+job_description: |
+  We are a Series B fintech company building infrastructure for real-time payment processing.
+  We're looking for a Senior Backend Engineer to join our core platform team.
+
+  You'll design and own services handling millions of transactions daily. This role requires
+  deep expertise in building reliable, high-throughput systems with TypeScript and Node.js
+  on top of PostgreSQL. You'll set technical direction, mentor junior engineers, and drive
+  architectural decisions end-to-end.
+
+  Responsibilities:
+  - Design and implement scalable microservices for payment processing pipelines
+  - Own database schema design and query optimization for PostgreSQL at scale
+  - Lead technical design reviews and contribute to architectural decisions
+  - Build and maintain internal platform tooling used by the broader engineering team
+  - Define SLOs and drive reliability improvements across services you own
+
+  Requirements:
+  - 4+ years backend engineering experience
+  - Strong proficiency in TypeScript and Node.js
+  - Deep experience with PostgreSQL (schema design, indexing, query optimization)
+  - Undergraduate degree in Computer Science, Engineering, or related field
+  - Demonstrated ownership — you've shipped things end-to-end and kept them running
+
+  Nice to have:
+  - AWS (ECS, RDS, SQS, Lambda)
+  - Redis for caching and pub/sub
+  - Docker and Kubernetes
+  - GraphQL API design
