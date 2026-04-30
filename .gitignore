@@ -25,5 +25,9 @@ test-results/
 supabase/.branches/
 supabase/.temp/
 
+.claude/worktrees/
 .claude/skills/*/screener/node_modules/
 .claude/skills/*/.cache/
+.claude/skills/*/fixtures/resumes/
+.claude/skills/*/fixtures/.cache/
+.claude/skills/*/fixtures/output/

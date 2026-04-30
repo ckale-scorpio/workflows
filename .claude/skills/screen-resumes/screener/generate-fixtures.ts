@@ -7,88 +7,97 @@
  * Output: ../fixtures/resumes/*.pdf
  */
 
-import PDFDocument from 'pdfkit'
-import * as fs from 'fs'
-import * as path from 'path'
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import PDFDocument from 'pdfkit';
 
-const OUT_DIR = path.join(__dirname, '../fixtures/resumes')
+const OUT_DIR = path.join(__dirname, '../fixtures/resumes');
 
 interface Job {
-  title: string
-  company: string
-  start: string
-  end: string | null
-  bullets: string[]
+  title: string;
+  company: string;
+  start: string;
+  end: string | null;
+  bullets: string[];
 }
 
 interface Education {
-  degree: string
-  field: string
-  school: string
-  year: number
+  degree: string;
+  field: string;
+  school: string;
+  year: number;
 }
 
 interface Resume {
-  name: string
-  headline: string
-  email: string
-  phone: string
-  skills: string[]
-  jobs: Job[]
-  education: Education[]
+  name: string;
+  headline: string;
+  email: string;
+  phone: string;
+  skills: string[];
+  jobs: Job[];
+  education: Education[];
 }
 
 function writePdf(filename: string, resume: Resume): void {
-  const doc = new PDFDocument({ margin: 50, size: 'LETTER' })
-  const out = fs.createWriteStream(path.join(OUT_DIR, filename))
-  doc.pipe(out)
+  const doc = new PDFDocument({ margin: 50, size: 'LETTER' });
+  const out = fs.createWriteStream(path.join(OUT_DIR, filename));
+  doc.pipe(out);
 
-  const W = 512 // usable width (612 - 2*50)
+  const W = 512; // usable width (612 - 2*50)
 
   // ── Header ────────────────────────────────────────────────────────────────
-  doc.fontSize(20).font('Helvetica-Bold').text(resume.name, { align: 'center' })
-  doc.fontSize(11).font('Helvetica').text(resume.headline, { align: 'center' })
-  doc.fontSize(9).fillColor('#555').text(`${resume.email}  ·  ${resume.phone}`, { align: 'center' })
-  doc.fillColor('#000').moveDown(0.5)
+  doc.fontSize(20).font('Helvetica-Bold').text(resume.name, { align: 'center' });
+  doc.fontSize(11).font('Helvetica').text(resume.headline, { align: 'center' });
+  doc
+    .fontSize(9)
+    .fillColor('#555')
+    .text(`${resume.email}  ·  ${resume.phone}`, { align: 'center' });
+  doc.fillColor('#000').moveDown(0.5);
 
-  doc.moveTo(50, doc.y).lineTo(562, doc.y).stroke('#ccc')
-  doc.moveDown(0.5)
+  doc.moveTo(50, doc.y).lineTo(562, doc.y).stroke('#ccc');
+  doc.moveDown(0.5);
 
   // ── Skills ────────────────────────────────────────────────────────────────
-  doc.fontSize(13).font('Helvetica-Bold').text('Skills')
-  doc.moveDown(0.2)
-  doc.fontSize(10).font('Helvetica').text(resume.skills.join('  ·  '), { width: W })
-  doc.moveDown(0.8)
+  doc.fontSize(13).font('Helvetica-Bold').text('Skills');
+  doc.moveDown(0.2);
+  doc.fontSize(10).font('Helvetica').text(resume.skills.join('  ·  '), { width: W });
+  doc.moveDown(0.8);
 
   // ── Experience ────────────────────────────────────────────────────────────
-  doc.fontSize(13).font('Helvetica-Bold').text('Experience')
-  doc.moveDown(0.2)
+  doc.fontSize(13).font('Helvetica-Bold').text('Experience');
+  doc.moveDown(0.2);
 
   for (const job of resume.jobs) {
-    const period = `${job.start} – ${job.end ?? 'Present'}`
-    doc.fontSize(11).font('Helvetica-Bold').text(job.title, { continued: true })
-    doc.font('Helvetica').text(`   ${job.company}`, { continued: true })
-    doc.fillColor('#555').text(`   ${period}`, { align: 'right' }).fillColor('#000')
-    doc.moveDown(0.2)
+    const period = `${job.start} – ${job.end ?? 'Present'}`;
+    doc.fontSize(11).font('Helvetica-Bold').text(job.title, { continued: true });
+    doc.font('Helvetica').text(`   ${job.company}`, { continued: true });
+    doc.fillColor('#555').text(`   ${period}`, { align: 'right' }).fillColor('#000');
+    doc.moveDown(0.2);
 
     for (const bullet of job.bullets) {
-      doc.fontSize(10).font('Helvetica').list([bullet], { bulletRadius: 2, width: W - 10 })
+      doc
+        .fontSize(10)
+        .font('Helvetica')
+        .list([bullet], { bulletRadius: 2, width: W - 10 });
     }
-    doc.moveDown(0.5)
+    doc.moveDown(0.5);
   }
 
   // ── Education ────────────────────────────────────────────────────────────
-  doc.fontSize(13).font('Helvetica-Bold').text('Education')
-  doc.moveDown(0.2)
+  doc.fontSize(13).font('Helvetica-Bold').text('Education');
+  doc.moveDown(0.2);
 
   for (const edu of resume.education) {
-    doc.fontSize(11).font('Helvetica-Bold').text(`${edu.degree} in ${edu.field}`, { continued: true })
-    doc.font('Helvetica').fillColor('#555').text(`   ${edu.school}, ${edu.year}`).fillColor('#000')
-    doc.moveDown(0.3)
+    doc
+      .fontSize(11)
+      .font('Helvetica-Bold')
+      .text(`${edu.degree} in ${edu.field}`, { continued: true });
+    doc.font('Helvetica').fillColor('#555').text(`   ${edu.school}, ${edu.year}`).fillColor('#000');
+    doc.moveDown(0.3);
   }
 
-  doc.end()
-  console.log(`  wrote ${filename}`)
+  doc.end();
+  console.log(`  wrote ${filename}`);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -100,7 +109,17 @@ const sarah: Resume = {
   headline: 'Senior Backend Engineer · Payments & Platform',
   email: 'sarah.chen@example.com',
   phone: '(415) 555-0182',
-  skills: ['TypeScript', 'Node.js', 'PostgreSQL', 'AWS', 'Redis', 'Docker', 'Kubernetes', 'GraphQL', 'gRPC'],
+  skills: [
+    'TypeScript',
+    'Node.js',
+    'PostgreSQL',
+    'AWS',
+    'Redis',
+    'Docker',
+    'Kubernetes',
+    'GraphQL',
+    'gRPC',
+  ],
   jobs: [
     {
       title: 'Senior Backend Engineer',
@@ -136,17 +155,24 @@ const sarah: Resume = {
       ],
     },
   ],
-  education: [
-    { degree: 'B.S.', field: 'Computer Science', school: 'UC Berkeley', year: 2018 },
-  ],
-}
+  education: [{ degree: 'B.S.', field: 'Computer Science', school: 'UC Berkeley', year: 2018 }],
+};
 
 const marcus: Resume = {
   name: 'Marcus Okafor',
   headline: 'Staff Backend Engineer · Infrastructure & Reliability',
   email: 'marcus.okafor@example.com',
   phone: '(628) 555-0041',
-  skills: ['TypeScript', 'Node.js', 'PostgreSQL', 'AWS (ECS, RDS, SQS)', 'Redis', 'Docker', 'Terraform', 'Datadog'],
+  skills: [
+    'TypeScript',
+    'Node.js',
+    'PostgreSQL',
+    'AWS (ECS, RDS, SQS)',
+    'Redis',
+    'Docker',
+    'Terraform',
+    'Datadog',
+  ],
   jobs: [
     {
       title: 'Staff Engineer, Platform',
@@ -183,9 +209,14 @@ const marcus: Resume = {
     },
   ],
   education: [
-    { degree: 'B.Eng.', field: 'Electrical & Computer Engineering', school: 'University of Toronto', year: 2015 },
+    {
+      degree: 'B.Eng.',
+      field: 'Electrical & Computer Engineering',
+      school: 'University of Toronto',
+      year: 2015,
+    },
   ],
-}
+};
 
 const priya: Resume = {
   name: 'Priya Patel',
@@ -218,9 +249,14 @@ const priya: Resume = {
     },
   ],
   education: [
-    { degree: 'B.S.', field: 'Information Systems', school: 'University of Illinois Chicago', year: 2020 },
+    {
+      degree: 'B.S.',
+      field: 'Information Systems',
+      school: 'University of Illinois Chicago',
+      year: 2020,
+    },
   ],
-}
+};
 
 // Backend engineer with mostly older experience — tests recency weighting
 const james: Resume = {
@@ -256,15 +292,13 @@ const james: Resume = {
       company: 'TechSolutions Inc.',
       start: '2010-06',
       end: '2011-12',
-      bullets: [
-        'Built internal tooling in Python for the ops team.',
-      ],
+      bullets: ['Built internal tooling in Python for the ops team.'],
     },
   ],
   education: [
     { degree: 'B.S.', field: 'Computer Science', school: 'University of Washington', year: 2010 },
   ],
-}
+};
 
 // ═══════════════════════════════════════════════════════════════════════════
 // FRONTEND ENGINEERS
@@ -275,7 +309,17 @@ const alex: Resume = {
   headline: 'Frontend Engineer · React & Design Systems',
   email: 'alex.torres@example.com',
   phone: '(737) 555-0064',
-  skills: ['TypeScript', 'React', 'Next.js', 'CSS Modules', 'Tailwind', 'Figma', 'Storybook', 'GraphQL (client)', 'Webpack'],
+  skills: [
+    'TypeScript',
+    'React',
+    'Next.js',
+    'CSS Modules',
+    'Tailwind',
+    'Figma',
+    'Storybook',
+    'GraphQL (client)',
+    'Webpack',
+  ],
   jobs: [
     {
       title: 'Senior Frontend Engineer',
@@ -301,16 +345,30 @@ const alex: Resume = {
     },
   ],
   education: [
-    { degree: 'B.A.', field: 'Human-Computer Interaction', school: 'Carnegie Mellon University', year: 2019 },
+    {
+      degree: 'B.A.',
+      field: 'Human-Computer Interaction',
+      school: 'Carnegie Mellon University',
+      year: 2019,
+    },
   ],
-}
+};
 
 const emily: Resume = {
   name: 'Emily Russo',
   headline: 'UI Engineer · Web Performance',
   email: 'emily.russo@example.com',
   phone: '(617) 555-0138',
-  skills: ['JavaScript', 'TypeScript', 'Vue.js', 'Nuxt', 'CSS', 'Web Vitals', 'Lighthouse', 'A/B Testing'],
+  skills: [
+    'JavaScript',
+    'TypeScript',
+    'Vue.js',
+    'Nuxt',
+    'CSS',
+    'Web Vitals',
+    'Lighthouse',
+    'A/B Testing',
+  ],
   jobs: [
     {
       title: 'UI Engineer',
@@ -337,7 +395,7 @@ const emily: Resume = {
   education: [
     { degree: 'B.S.', field: 'Web Development', school: 'Northeastern University', year: 2018 },
   ],
-}
+};
 
 // ═══════════════════════════════════════════════════════════════════════════
 // HIGH SCHOOL TEACHERS
@@ -349,7 +407,14 @@ const david: Resume = {
   headline: 'High School Computer Science Teacher',
   email: 'david.washington@example.com',
   phone: '(503) 555-0079',
-  skills: ['Python', 'Scratch', 'Curriculum Design', 'Classroom Management', 'Google Workspace', 'JavaScript (intro level)'],
+  skills: [
+    'Python',
+    'Scratch',
+    'Curriculum Design',
+    'Classroom Management',
+    'Google Workspace',
+    'JavaScript (intro level)',
+  ],
   jobs: [
     {
       title: 'Computer Science Teacher',
@@ -358,7 +423,7 @@ const david: Resume = {
       end: null,
       bullets: [
         'Taught AP Computer Science Principles and introductory Python to 120 students per year.',
-        'Developed the school\'s first cybersecurity elective, now in its third year with a 40-student waitlist.',
+        "Developed the school's first cybersecurity elective, now in its third year with a 40-student waitlist.",
         'Led the robotics club to a regional competition win in 2022.',
         'Coordinated with district admin to update the CS curriculum to include data structures.',
       ],
@@ -368,23 +433,27 @@ const david: Resume = {
       company: 'Portland State University',
       start: '2013-09',
       end: '2015-05',
-      bullets: [
-        'Graded assignments for CS101 and held weekly office hours for 30+ students.',
-      ],
+      bullets: ['Graded assignments for CS101 and held weekly office hours for 30+ students.'],
     },
   ],
   education: [
     { degree: 'B.S.', field: 'Computer Science', school: 'Portland State University', year: 2013 },
     { degree: 'M.Ed.', field: 'Secondary Education', school: 'Lewis & Clark College', year: 2015 },
   ],
-}
+};
 
 const linda: Resume = {
   name: 'Linda Brooks',
   headline: 'High School English & Creative Writing Teacher',
   email: 'linda.brooks@example.com',
   phone: '(718) 555-0201',
-  skills: ['Curriculum Development', 'AP English Literature', 'Creative Writing Workshop', 'Google Classroom', 'Differentiated Instruction'],
+  skills: [
+    'Curriculum Development',
+    'AP English Literature',
+    'Creative Writing Workshop',
+    'Google Classroom',
+    'Differentiated Instruction',
+  ],
   jobs: [
     {
       title: 'English Teacher',
@@ -395,7 +464,7 @@ const linda: Resume = {
         'Taught AP English Literature and Composition; 87% of students score 3 or higher on the AP exam.',
         'Launched the school literary magazine, now in its 9th year of publication.',
         'Mentored 5 student essay winners at state-level writing competitions.',
-        'Led the department\'s transition to project-based learning across all grade levels.',
+        "Led the department's transition to project-based learning across all grade levels.",
       ],
     },
     {
@@ -403,28 +472,26 @@ const linda: Resume = {
       company: 'Brooklyn City Schools',
       start: '2008-09',
       end: '2010-06',
-      bullets: [
-        'Covered English and social studies classes across 12 schools in the district.',
-      ],
+      bullets: ['Covered English and social studies classes across 12 schools in the district.'],
     },
   ],
   education: [
     { degree: 'B.A.', field: 'English Literature', school: 'Brooklyn College', year: 2008 },
     { degree: 'M.A.', field: 'Teaching', school: 'Fordham University', year: 2010 },
   ],
-}
+};
 
 // ═══════════════════════════════════════════════════════════════════════════
 // Main
 // ═══════════════════════════════════════════════════════════════════════════
 
-console.log(`Generating fixtures → ${OUT_DIR}`)
-writePdf('sarah-chen-backend.pdf', sarah)
-writePdf('marcus-okafor-backend.pdf', marcus)
-writePdf('priya-patel-backend.pdf', priya)
-writePdf('james-whitfield-backend.pdf', james)
-writePdf('alex-torres-frontend.pdf', alex)
-writePdf('emily-russo-frontend.pdf', emily)
-writePdf('david-washington-teacher.pdf', david)
-writePdf('linda-brooks-teacher.pdf', linda)
-console.log('Done.')
+console.log(`Generating fixtures → ${OUT_DIR}`);
+writePdf('sarah-chen-backend.pdf', sarah);
+writePdf('marcus-okafor-backend.pdf', marcus);
+writePdf('priya-patel-backend.pdf', priya);
+writePdf('james-whitfield-backend.pdf', james);
+writePdf('alex-torres-frontend.pdf', alex);
+writePdf('emily-russo-frontend.pdf', emily);
+writePdf('david-washington-teacher.pdf', david);
+writePdf('linda-brooks-teacher.pdf', linda);
+console.log('Done.');

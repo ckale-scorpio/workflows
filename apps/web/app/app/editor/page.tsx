@@ -12,7 +12,10 @@ export default async function EditorListPage() {
   async function createDoc() {
     'use server';
     const cookieStore = await cookies();
-    const cookieHeader = cookieStore.getAll().map((c) => `${c.name}=${c.value}`).join('; ');
+    const cookieHeader = cookieStore
+      .getAll()
+      .map((c) => `${c.name}=${c.value}`)
+      .join('; ');
     const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/docs`, {
       method: 'POST',
       headers: { Cookie: cookieHeader },

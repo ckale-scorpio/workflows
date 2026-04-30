@@ -1,9 +1,9 @@
-import Anthropic from '@anthropic-ai/sdk'
-import { ResumeExtractSchema } from './types'
-import type { ResumeExtract } from './types'
-import { hashString, getCachedExtract, setCachedExtract } from './cache'
+import type Anthropic from '@anthropic-ai/sdk';
+import { getCachedExtract, hashString, setCachedExtract } from './cache';
+import type { ResumeExtract } from './types';
+import { ResumeExtractSchema } from './types';
 
-export const PROMPT_VERSION = 'v1'
+export const PROMPT_VERSION = 'v1';
 
 const SYSTEM_PROMPT = `You are an expert resume parser. Extract structured information from resumes accurately and completely.
 
@@ -11,7 +11,7 @@ Guidelines:
 - skills: Include ALL technical skills, tools, languages, and frameworks mentioned ANYWHERE in the resume — including ones only mentioned inside job bullets. Be thorough.
 - jobs: List in reverse chronological order. Set end to null for current or present roles.
 - agency_phrases: Find verbatim phrases showing the candidate taking ownership, making decisions, driving outcomes, or leading initiatives. The phrase must have a clear first-person or role-based subject. Strong examples: "made the call to migrate", "owned the on-call rotation", "pushed back on the timeline", "hired and grew the team to 8", "defined the roadmap", "decided to deprecate the legacy API". Do NOT include passive phrases like "was responsible for", "helped with", or "assisted in".
-- education: Include all degrees. Identify undergrad types (B.S., B.A., B.Eng., Bachelor, BSc, BBA, etc.) accurately.`
+- education: Include all degrees. Identify undergrad types (B.S., B.A., B.Eng., Bachelor, BSc, BBA, etc.) accurately.`;
 
 const EXTRACT_SCHEMA = {
   type: 'object' as const,
@@ -94,7 +94,7 @@ const EXTRACT_SCHEMA = {
     },
   },
   required: ['name', 'headline', 'skills', 'jobs', 'education', 'agency_phrases'],
-}
+};
 
 export async function extractResume(
   filePath: string,
@@ -103,15 +103,15 @@ export async function extractResume(
   client: Anthropic,
   verbose = false,
 ): Promise<ResumeExtract> {
-  const textHash = hashString(text)
+  const textHash = hashString(text);
 
-  const cached = await getCachedExtract(workspace, textHash, PROMPT_VERSION)
+  const cached = await getCachedExtract(workspace, textHash, PROMPT_VERSION);
   if (cached) {
-    if (verbose) process.stdout.write(`  ✓ cached   ${filePath}\n`)
-    return ResumeExtractSchema.parse(cached)
+    if (verbose) process.stdout.write(`  ✓ cached   ${filePath}\n`);
+    return ResumeExtractSchema.parse(cached);
   }
 
-  if (verbose) process.stdout.write(`  → extract  ${filePath}\n`)
+  if (verbose) process.stdout.write(`  → extract  ${filePath}\n`);
 
   const response = await client.messages.create({
     model: 'claude-sonnet-4-6',
@@ -138,22 +138,22 @@ export async function extractResume(
         content: `Extract structured information from this resume:\n\n${text}`,
       },
     ],
-  })
+  });
 
-  const toolUse = response.content.find((b) => b.type === 'tool_use')
+  const toolUse = response.content.find((b) => b.type === 'tool_use');
   if (!toolUse || toolUse.type !== 'tool_use') {
-    throw new Error(`Extraction failed for ${filePath}: no tool_use in response`)
+    throw new Error(`Extraction failed for ${filePath}: no tool_use in response`);
   }
 
-  const extracted = { file: filePath, ...(toolUse.input as object) }
+  const extracted = { file: filePath, ...(toolUse.input as object) };
 
   try {
-    const parsed = ResumeExtractSchema.parse(extracted)
-    await setCachedExtract(workspace, textHash, PROMPT_VERSION, extracted)
-    return parsed
+    const parsed = ResumeExtractSchema.parse(extracted);
+    await setCachedExtract(workspace, textHash, PROMPT_VERSION, extracted);
+    return parsed;
   } catch (err) {
     throw new Error(
       `Extraction schema mismatch for ${filePath}: ${err instanceof Error ? err.message : String(err)}`,
-    )
+    );
   }
 }
