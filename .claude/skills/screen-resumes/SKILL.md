@@ -25,21 +25,35 @@ Ensure `ANTHROPIC_API_KEY` is set in your environment (add to `~/.zshrc` or pass
 
 ## Workspace layout
 
-Each hiring round gets its own folder anywhere on disk:
+Each hiring round gets its own folder anywhere on disk. Two layouts are supported:
 
+**Flat layout** — resumes live directly alongside `jd.yaml` (simplest):
 ```
 ~/hiring/my-role/
-├── jd.yaml       ← job description spec (copy template, fill in)
-├── resumes/      ← drop PDF and DOCX files here
-├── .cache/       ← auto-generated (gitignore this)
-└── output/       ← results land here
+├── jd.yaml           ← job description spec (copy template, fill in)
+├── alice-smith.pdf   ← resume files dropped here
+├── bob-jones.docx
+├── .cache/           ← auto-generated (gitignore this)
+└── output/           ← results land here
 ```
+
+**Subfolder layout** — resumes in a `resumes/` subfolder (original, still supported):
+```
+~/hiring/my-role/
+├── jd.yaml
+├── resumes/          ← drop PDF and DOCX files here
+├── .cache/
+└── output/
+```
+
+The screener auto-detects: if a `resumes/` subfolder exists it uses that; otherwise it scans the workspace root for PDF/DOCX files.
 
 To scaffold a new workspace:
 
 ```bash
-mkdir -p ~/hiring/my-role/resumes
+mkdir ~/hiring/my-role
 cp ~/.claude/skills/screen-resumes/references/jd-spec-template.yaml ~/hiring/my-role/jd.yaml
+# drop resumes (PDF/DOCX) into ~/hiring/my-role/
 # edit jd.yaml: fill in title, required_skills, preferred_skills, job_description
 ```
 
@@ -97,8 +111,8 @@ pnpm --dir ~/.claude/skills/screen-resumes/screener extract --workspace .
 
 ## Your workflow as Claude
 
-1. **Check workspace** — verify `jd.yaml` and `resumes/` exist; if not, scaffold from the template above
-2. **Run** — execute the `screen` command (or `score` if extractions are already cached)
+1. **Ask for the folder** — prompt the user: "Which folder contains the resumes and jd.yaml?" Do not proceed until you have a path. Verify that `jd.yaml` exists in that folder and that there are PDF/DOCX files either alongside it or in a `resumes/` subfolder; if missing, scaffold from the template above.
+2. **Run** — execute the `screen` command with `--workspace <folder>` (or `score` if extractions are already cached)
 3. **Read results** — read `output/shortlist.csv` first 15 rows and `output/report.md` top 5
 4. **Show inline** — present a brief table: rank, name, score, matched required skills, top agency phrase
 5. **Offer iteration** — "want me to adjust weights, add a required skill, or tighten the recency window?"
