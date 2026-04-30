@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(ls *)",
+      "Bash(gh *)",
       "Bash(find *)",
+      "Bash(cat *)",
       "Bash(grep *)",
       "Bash(awk *)",
       "Bash(git log)",
@@ -14,6 +16,7 @@
       "Bash(grep -v \"^$\")",
       "Bash(pnpm *)",
       "Bash(curl *)"
+      "Bash(which *)"
     ]
   }
 }
