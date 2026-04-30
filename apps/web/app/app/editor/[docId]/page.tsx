@@ -14,7 +14,10 @@ export default async function EditorPage({ params }: { params: Promise<{ docId: 
   if (!user) redirect('/login');
 
   const cookieStore = await cookies();
-  const cookieHeader = cookieStore.getAll().map((c) => `${c.name}=${c.value}`).join('; ');
+  const cookieHeader = cookieStore
+    .getAll()
+    .map((c) => `${c.name}=${c.value}`)
+    .join('; ');
 
   // Load doc snapshot
   const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/docs/${docId}`, {

@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   experimental: {
     preloadEntriesOnStart: false,
     serverComponentsHmrCache: true,
-  }
+  },
 };
 
 export default nextConfig;
