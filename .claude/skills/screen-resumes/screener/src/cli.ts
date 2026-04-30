@@ -59,33 +59,40 @@ async function parseAndExtract(
   let parseCacheHits = 0
   let extractCacheHits = 0
 
-  const extracts = await Promise.all(
+  const results = await Promise.all(
     resumeFiles.map((filePath) =>
       limit(async () => {
-        // Stage A: parse
-        const fileHash = await hashFile(filePath)
-        let text = await getCachedText(workspace, fileHash)
-        if (text === null) {
-          const ext = path.extname(filePath).toLowerCase()
-          text = ext === '.pdf' ? await parsePDF(filePath) : await parseDOCX(filePath)
-          await setCachedText(workspace, fileHash, text)
-        } else {
-          parseCacheHits++
-        }
+        try {
+          // Stage A: parse
+          const fileHash = await hashFile(filePath)
+          let text = await getCachedText(workspace, fileHash)
+          if (text === null) {
+            const ext = path.extname(filePath).toLowerCase()
+            text = ext === '.pdf' ? await parsePDF(filePath) : await parseDOCX(filePath)
+            await setCachedText(workspace, fileHash, text)
+          } else {
+            parseCacheHits++
+          }
 
-        // Stage B: extract
-        const textHash = hashString(text)
-        const cached = await getCachedExtract(workspace, textHash, PROMPT_VERSION)
-        if (cached) {
-          extractCacheHits++
-          if (verbose) process.stdout.write(`  ✓ cached   ${path.basename(filePath)}\n`)
-          return ResumeExtractSchema.parse(cached)
+          // Stage B: extract
+          const textHash = hashString(text)
+          const cached = await getCachedExtract(workspace, textHash, PROMPT_VERSION)
+          if (cached) {
+            extractCacheHits++
+            if (verbose) process.stdout.write(`  ✓ cached   ${path.basename(filePath)}\n`)
+            return ResumeExtractSchema.parse(cached)
+          }
+          return await extractResume(filePath, text, workspace, client, verbose)
+        } catch (err) {
+          const msg = err instanceof Error ? err.message : String(err)
+          process.stderr.write(`  ⚠ skipping ${path.basename(filePath)}: ${msg}\n`)
+          return null
         }
-        return extractResume(filePath, text, workspace, client, verbose)
       }),
     ),
   )
 
+  const extracts = results.filter((r): r is ResumeExtract => r !== null)
   return { extracts, parseCacheHits, extractCacheHits }
 }
 
