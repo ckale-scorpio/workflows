@@ -15,7 +15,7 @@
       "Bash(git filter-branch *)",
       "Bash(grep -v \"^$\")",
       "Bash(pnpm *)",
-      "Bash(curl *)"
+      "Bash(curl *)",
       "Bash(which *)"
     ]
   }
