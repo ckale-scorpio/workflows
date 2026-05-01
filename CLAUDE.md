@@ -8,7 +8,7 @@
 
 ### Project Structure
 - `/apps/` - Feature-based modules
-- `/packages/` - Workspace packages (`@app/db`, `@app/server`, `@app/workflows`, `@app/shared`, `@app/collab`, `@app/resume-screener`)
+- `/packages/` - Workspace packages (`@app/db`, `@app/services`, `@app/jobs`, `@app/core`, `@app/collab`, `@app/resume-screener`)
 - `/.claude/plugins/workflows/` - Claude Code plugin (skills versioned here, distributed via plugin system)
 
 ### Plugin & Skills Convention

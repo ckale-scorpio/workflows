@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { type NextRequest, NextResponse } from 'next/server';
 
-// NEXT_PUBLIC_* vars are available in Edge Runtime; the full @app/shared/env
+// NEXT_PUBLIC_* vars are available in Edge Runtime; the full @app/core/env
 // validator cannot run here because it also validates server-only vars that
 // Next.js strips from the Edge Runtime.
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';

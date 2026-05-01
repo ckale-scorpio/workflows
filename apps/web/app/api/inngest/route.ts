@@ -1,4 +1,4 @@
-import { functions, inngest } from '@app/workflows';
+import { functions, inngest } from '@app/jobs';
 import { serve } from 'inngest/next';
 
 export const { GET, POST, PUT } = serve({

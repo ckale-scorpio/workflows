@@ -1,4 +1,4 @@
-import { env } from '@app/shared/env';
+import { env } from '@app/core/env';
 import { createClient } from '@supabase/supabase-js';
 
 let cached: ReturnType<typeof createClient> | undefined;

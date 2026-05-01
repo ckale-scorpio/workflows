@@ -5,8 +5,8 @@ import {
   lockDocumentForUpdate,
   recordOperation,
   withTransactionalContext,
-} from '@app/server';
-import { env } from '@app/shared/env';
+} from '@app/services';
+import { env } from '@app/core/env';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 
 interface AcceptedOp {

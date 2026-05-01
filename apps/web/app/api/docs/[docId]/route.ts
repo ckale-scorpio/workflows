@@ -1,4 +1,4 @@
-import { listDocumentMembers, loadDocument, withServerContext } from '@app/server';
+import { listDocumentMembers, loadDocument, withServerContext } from '@app/services';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 
 export async function GET(_req: Request, { params }: { params: Promise<{ docId: string }> }) {

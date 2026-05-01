@@ -1,4 +1,4 @@
-import { env } from '@app/shared/env';
+import { env } from '@app/core/env';
 import { createBrowserClient } from '@supabase/ssr';
 
 export function createSupabaseBrowserClient() {

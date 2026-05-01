@@ -1,4 +1,4 @@
-import { joinDocument, withServerContext } from '@app/server';
+import { joinDocument, withServerContext } from '@app/services';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 
 export async function POST(_req: Request, { params }: { params: Promise<{ docId: string }> }) {

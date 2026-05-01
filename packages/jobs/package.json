@@ -1,5 +1,5 @@
 {
-  "name": "@app/workflows",
+  "name": "@app/jobs",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -15,8 +15,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.37.0",
-    "@app/server": "workspace:*",
-    "@app/shared": "workspace:*",
+    "@app/services": "workspace:*",
     "@inngest/agent-kit": "^0.8.0",
     "inngest": "^3.27.4",
     "zod": "^3.24.1"

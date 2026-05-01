@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "@app/collab": "workspace:*",
-    "@app/server": "workspace:*",
-    "@app/shared": "workspace:*",
-    "@app/workflows": "workspace:*",
+    "@app/core": "workspace:*",
+    "@app/jobs": "workspace:*",
+    "@app/services": "workspace:*",
     "@base-ui/react": "^1.4.1",
     "@supabase/ssr": "^0.10.2",
     "@supabase/supabase-js": "^2.104.0",

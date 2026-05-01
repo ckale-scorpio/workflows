@@ -5,7 +5,7 @@ import {
   recordPaymentAttempt,
   updatePaymentAttempt,
   withServerContext,
-} from '@app/server';
+} from '@app/services';
 import { NonRetriableError } from 'inngest';
 import { inngest } from '../client';
 import { classifyPaymentFailure } from './agents/dispute-classifier';

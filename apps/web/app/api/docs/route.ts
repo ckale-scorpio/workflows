@@ -1,4 +1,4 @@
-import { createDocument, joinDocument, withServerContext } from '@app/server';
+import { createDocument, joinDocument, withServerContext } from '@app/services';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 
 export async function POST() {
