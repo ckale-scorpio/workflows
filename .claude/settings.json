@@ -18,5 +18,16 @@
       "Bash(curl *)",
       "Bash(which *)"
     ]
+  },
+  "enabledPlugins": {
+    "workflows@workflows": true
+  },
+  "extraKnownMarketplaces": {
+    "workflows": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/chetan/workflows/.claude/plugins"
+      }
+    }
   }
 }

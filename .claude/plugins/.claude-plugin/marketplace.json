@@ -1,0 +1,15 @@
+{
+  "name": "workflows",
+  "description": "Centralized team skills for the workflows monorepo",
+  "owner": {
+    "name": "Chetan Kale",
+    "email": "chetankale@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "workflows",
+      "source": "./workflows",
+      "description": "Centralized team skills for the workflows monorepo"
+    }
+  ]
+}

@@ -8,18 +8,26 @@
 
 ### Project Structure
 - `/apps/` - Feature-based modules
-- `/packages/` - Workspace packages (`@app/db`, `@app/server`, `@app/workflows`, `@app/shared`, `@app/collab`)
-- `/.claude/skills/` - Custom Claude Code skills (versioned here, symlinked to `~/.claude/skills/<name>`)
+- `/packages/` - Workspace packages (`@app/db`, `@app/server`, `@app/workflows`, `@app/shared`, `@app/collab`, `@app/resume-screener`)
+- `/.claude/plugins/workflows/` - Claude Code plugin (skills versioned here, distributed via plugin system)
 
-### Custom Skills Convention
-Custom skills live in `.claude/skills/<skill-name>/` in this repo and are symlinked into `~/.claude/skills/` so Claude Code discovers them globally.
+### Plugin & Skills Convention
+All team skills live in `.claude/plugins/workflows/skills/<skill-name>/SKILL.md` and are distributed via the Claude Code plugin system. Supporting CLI tools live in `packages/`.
 
-To add a new skill:
+**One-time setup (new team members)** — run from the repo root:
 ```bash
-mkdir -p .claude/skills/my-skill
-# create .claude/skills/my-skill/SKILL.md
-ln -s "$(pwd)/.claude/skills/my-skill" ~/.claude/skills/my-skill
+cd /path/to/workflows   # ensure you're at the repo root
+claude plugin marketplace add "$PWD/.claude/plugins" --scope project
+claude plugin install workflows@workflows --scope project
 ```
 
-Skill-internal `node_modules/` and `.cache/` are gitignored. Everything else (source, SKILL.md, references/) is committed.
+Skills then appear as `/workflows:<skill-name>`. Restart Claude Code after installing.
+
+**Adding a new skill**:
+```bash
+mkdir -p .claude/plugins/workflows/skills/my-skill
+# create .claude/plugins/workflows/skills/my-skill/SKILL.md
+```
+
+No symlinks needed. Skill-internal `.cache/` and test data are gitignored. Everything else (SKILL.md, fixtures/jd.yaml) is committed.
 

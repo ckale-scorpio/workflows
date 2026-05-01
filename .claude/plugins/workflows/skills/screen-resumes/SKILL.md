@@ -14,10 +14,9 @@ The pipeline has four stages. Extraction (Stage B) is cached forever per resume 
 
 ## One-time setup
 
-Install the screener CLI once:
+The screener CLI is a workspace package — install from the repo root:
 
 ```bash
-cd ~/.claude/skills/screen-resumes/screener
 pnpm install
 ```
 
@@ -52,7 +51,7 @@ To scaffold a new workspace:
 
 ```bash
 mkdir ~/hiring/my-role
-cp ~/.claude/skills/screen-resumes/references/jd-spec-template.yaml ~/hiring/my-role/jd.yaml
+pnpm --filter @app/resume-screener exec -- cp references/jd-spec-template.yaml ~/hiring/my-role/jd.yaml
 # drop resumes (PDF/DOCX) into ~/hiring/my-role/
 # edit jd.yaml: fill in title, required_skills, preferred_skills, job_description
 ```
@@ -63,13 +62,13 @@ From inside the workspace folder (or any folder with `--workspace <path>`):
 
 ```bash
 # Full pipeline: parse → extract → score → explain
-pnpm --dir ~/.claude/skills/screen-resumes/screener screen --workspace .
+pnpm --filter @app/resume-screener screen --workspace .
 
 # With per-file progress
-pnpm --dir ~/.claude/skills/screen-resumes/screener screen --workspace . --verbose
+pnpm --filter @app/resume-screener screen --workspace . --verbose
 
 # Skip narrative explanations (faster, no Stage D API cost)
-pnpm --dir ~/.claude/skills/screen-resumes/screener screen --workspace . --no-explain
+pnpm --filter @app/resume-screener screen --workspace . --no-explain
 ```
 
 Output:
@@ -82,13 +81,13 @@ After the first run, changing weights or skills in `jd.yaml` and re-scoring cost
 
 ```bash
 # Re-score with new weights or skills (reads from cache, no API calls)
-pnpm --dir ~/.claude/skills/screen-resumes/screener score --workspace .
+pnpm --filter @app/resume-screener score --workspace .
 
 # Re-generate explanations only (e.g. after re-ranking)
-pnpm --dir ~/.claude/skills/screen-resumes/screener explain --workspace .
+pnpm --filter @app/resume-screener explain --workspace .
 
 # Extract only — populate cache without scoring (useful for large batches before you have a JD)
-pnpm --dir ~/.claude/skills/screen-resumes/screener extract --workspace .
+pnpm --filter @app/resume-screener extract --workspace .
 ```
 
 ## Cache behaviour
