@@ -44,10 +44,10 @@
           "level": "error",
           "options": {
             "paths": {
-              "@app/db": "Database access must go through @app/server. Only @app/server may import @app/db directly.",
-              "@app/db/*": "Database access must go through @app/server. Only @app/server may import @app/db directly.",
-              "@mikro-orm/core": "Use @app/server services. Raw ORM access belongs inside @app/db or @app/server only.",
-              "@mikro-orm/postgresql": "Use @app/server services. Raw ORM access belongs inside @app/db or @app/server only."
+              "@app/db": "Database access must go through @app/services. Only @app/services may import @app/db directly.",
+              "@app/db/*": "Database access must go through @app/services. Only @app/services may import @app/db directly.",
+              "@mikro-orm/core": "Use @app/services. Raw ORM access belongs inside @app/db or @app/services only.",
+              "@mikro-orm/postgresql": "Use @app/services. Raw ORM access belongs inside @app/db or @app/services only."
             }
           }
         }
@@ -65,7 +65,7 @@
   },
   "overrides": [
     {
-      "includes": ["**/packages/server/**", "**/packages/db/**"],
+      "includes": ["**/packages/services/**", "**/packages/db/**"],
       "linter": {
         "rules": {
           "style": {
@@ -83,7 +83,7 @@
               "level": "error",
               "options": {
                 "paths": {
-                  "@app/server": "@app/collab is platform code; it must not import @app/server."
+                  "@app/services": "@app/collab is platform code; it must not import @app/services."
                 }
               }
             }
