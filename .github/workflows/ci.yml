@@ -39,10 +39,7 @@ jobs:
       - name: Build
         run: pnpm build
         env:
-          ANTHROPIC_API_KEY: sk-ant-placeholder
-          DATABASE_URL: postgresql://user:pass@localhost:5432/db
-          NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+          SKIP_ENV_VALIDATION: '1'
           TURBO_TELEMETRY_DISABLED: '1'
 
   # ── Production deployment ────────────────────────────────────────────────
