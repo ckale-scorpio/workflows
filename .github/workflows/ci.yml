@@ -1,4 +1,4 @@
-name: CI
+name: CI / CD
 
 on:
   push:
@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   verify:
-    name: Typecheck, Lint, Test, Build
+    name: Lint, Typecheck, Test, Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -42,3 +42,71 @@ jobs:
           DATABASE_URL: postgresql://user:pass@localhost:5432/db
           NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
           NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+          TURBO_TELEMETRY_DISABLED: '1'
+
+  # ── Production deployment ────────────────────────────────────────────────
+  # Runs only on pushes to main, after the verify job passes.
+  #
+  # Required GitHub secrets (set on the "production" environment):
+  #   DATABASE_URL       Supabase session-mode pooler URL (postgres superuser)
+  #   VERCEL_TOKEN       Personal access token — vercel.com/account/tokens
+  #   VERCEL_ORG_ID      Team/personal org ID — from `vercel whoami` or project.json
+  #   VERCEL_PROJECT_ID  Project ID — from `vercel project ls` or project.json
+  #
+  # First-time setup:
+  #   1. Create a "production" environment in GitHub → Settings → Environments
+  #   2. Add the four secrets above to that environment
+  #   3. Run `vercel link` locally once to generate .vercel/project.json, then
+  #      copy VERCEL_ORG_ID and VERCEL_PROJECT_ID from that file into GitHub secrets
+  deploy:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    needs: verify
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      # Migrations run BEFORE the new code goes live so the DB is always in
+      # the state the incoming binary expects.  This job connects as the
+      # postgres superuser (DATABASE_URL), which bypasses RLS.
+      - name: Run database migrations
+        run: pnpm --filter @app/db db:migrate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      # Pull project settings + production env vars into .vercel/ so that
+      # `vercel build` can bake NEXT_PUBLIC_* values into the JS bundle.
+      - name: Pull Vercel environment
+        run: npx vercel@latest pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Build project artifacts
+        run: npx vercel@latest build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Deploy prebuilt artifacts
+        id: deploy
+        run: |
+          url=$(npx vercel@latest deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$url" >> $GITHUB_OUTPUT
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Print deployment URL
+        run: echo "Deployed → ${{ steps.deploy.outputs.url }}"
