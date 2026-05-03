@@ -85,24 +85,14 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
-      # Pull project settings + production env vars into .vercel/ so that
-      # `vercel build` can bake NEXT_PUBLIC_* values into the JS bundle.
-      - name: Pull Vercel environment
-        run: npx vercel@latest pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-      - name: Build project artifacts
-        run: npx vercel@latest build --prod --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-      - name: Deploy prebuilt artifacts
+      # Vercel builds and deploys from source on their infrastructure,
+      # which correctly reads apps/web/vercel.json for build/install commands
+      # and has access to all production env vars set in the Vercel dashboard.
+      # Build correctness is already verified by the `verify` job above.
+      - name: Deploy to Vercel
         id: deploy
         run: |
-          url=$(npx vercel@latest deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          url=$(npx vercel@latest deploy --prod --token=${{ secrets.VERCEL_TOKEN }})
           echo "url=$url" >> $GITHUB_OUTPUT
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
