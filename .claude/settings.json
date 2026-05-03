@@ -3,11 +3,16 @@
     "allow": [
       "Bash(ls *)",
       "Bash(gh *)",
+      "Bash(cd *)",
       "Bash(find *)",
       "Bash(cat *)",
       "Bash(grep *)",
+      "Bash(grep -v \"^$\")",
       "Bash(awk *)",
       "Bash(git log)",
+      "Bash(git add)",
+      "Bash(git status)",
+      "Bash(git mv)",
       "Bash(mkdir *)",
       "Bash(echo *)",
       "Bash(git commit *)",
@@ -16,6 +21,7 @@
       "Bash(grep -v \"^$\")",
       "Bash(pnpm *)",
       "Bash(curl *)",
+      "Bash(sed *)",
       "Bash(which *)"
     ]
   },
