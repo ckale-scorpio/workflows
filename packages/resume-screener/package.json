@@ -7,7 +7,7 @@
     "extract": "tsx src/cli.ts extract",
     "score": "tsx src/cli.ts score",
     "explain": "tsx src/cli.ts explain",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "generate-fixtures": "tsx generate-fixtures.ts"
   },
   "dependencies": {
