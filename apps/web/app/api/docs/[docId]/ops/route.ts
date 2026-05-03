@@ -1,12 +1,12 @@
 import type { Op, SlateDescendant } from '@app/collab';
 import { applyOp, transform } from '@app/collab';
+import { env } from '@app/core/env';
 import {
   listDocumentMembers,
   lockDocumentForUpdate,
   recordOperation,
   withTransactionalContext,
 } from '@app/services';
-import { env } from '@app/core/env';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 
 interface AcceptedOp {
