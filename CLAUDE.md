@@ -1,5 +1,17 @@
 ## High-Level Architecture
 
+### Commands
+
+```bash
+pnpm lint
+pnpm build
+pnpm typecheck
+pnpm lint:fix
+pnpm format
+pnpm test
+pnpm db:migrate
+```
+
 ### Tech Stack
 - **Frontend**: pnpm + Turborepo monorepo scaffolded for a full-stack TypeScript app with durable, agent-embedded workflows.
 - **Backend**: Vercel Server Functions
@@ -26,8 +38,7 @@ Skills then appear as `/workflows:<skill-name>`. Restart Claude Code after insta
 **Adding a new skill**:
 ```bash
 mkdir -p .claude/plugins/workflows/skills/my-skill
-# create .claude/plugins/workflows/skills/my-skill/SKILL.md
 ```
 
-No symlinks needed. Skill-internal `.cache/` and test data are gitignored. Everything else (SKILL.md, fixtures/jd.yaml) is committed.
+Skill-internal `.cache/` and test data are gitignored. Everything else (SKILL.md, fixtures/jd.yaml) is committed.
 
